@@ -10,6 +10,9 @@ python3 pa_firewall.py -generate_api
 python3 pa_firewall.py -ip 10.1.1.2 -check-status
 python3 pa_firewall.py -ip 10.1.1.2 10.1.1.3 10.1.1.4 -check-status
 python3 pa_firewall.py -ip-file pa-ips.txt -check-status
+
+# to output the content, just pipe it into a txt, csv or grepable file
+python3 pa_firewall.py -ip 10.1.1.2 -check-status >> audit.csv
 ```
 
 ### generate_api key
