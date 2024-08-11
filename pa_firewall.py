@@ -1,7 +1,7 @@
 import argparse  # for command line arguments
 import getpass  # for secure password input
 import requests  # to make HTTP requests
-import xml.etree.ElementTree as ET  # to parse XML responses
+from defusedxml.ElementTree import ElementTree  # to parse securely XML responses
 from colorama import Style, Fore  # for colorized output
 from cryptography.fernet import Fernet  # for encryption
 
@@ -17,7 +17,7 @@ def generate_apikey(user, ip):
     response = requests.get(url, verify=False)  # verify=False to ignore SSL warnings
 
     # Parse the XML response to extract the API key
-    tree = ET.ElementTree(ET.fromstring(response.content))
+    tree = ElementTree(ET.fromstring(response.content))
     root = tree.getroot()
 
     # Extract API key
@@ -57,7 +57,8 @@ def check_api_connection(ip, api_key):
     url = f"https://{ip}/api/?type=op&cmd=<show><system><info></info></system></show>&key={api_key}"
     response = requests.get(url, verify=False)
 
-    tree = ET.ElementTree(ET.fromstring(response.content))
+    # Parse the XML response to extract the API key
+    tree = ElementTree(ET.fromstring(response.content))
     root = tree.getroot()
 
     status = root.attrib.get("status", "unknown")
@@ -75,7 +76,8 @@ def get_firewall_status(ip, api_key):
     url = f"https://{ip}/api/?type=op&cmd=<show><system><info></info></system></show>&key={api_key}"
     response = requests.get(url, verify=False)
 
-    tree = ET.ElementTree(ET.fromstring(response.content))
+    # Parse the XML response to extract the API key
+    tree = ElementTree(ET.fromstring(response.content))
     root = tree.getroot()
 
     status = root.attrib.get("status", "unknown")
